@@ -1,0 +1,16 @@
+@CoffeeOrderingApi_HostAddress = https://localhost:7245
+
+GET {{CoffeeOrderingApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+POST {{CoffeeOrderingApi_HostAddress}}/api/coffeeorders
+Content-Type: application/json
+
+{
+  //CoffeeOrder
+
+}
+
+###
