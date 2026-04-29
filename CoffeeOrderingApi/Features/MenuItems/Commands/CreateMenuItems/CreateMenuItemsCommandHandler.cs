@@ -3,17 +3,17 @@ using CoffeeOrderingApiWithCQRSandMediatR.Domain;
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using MediatR;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItems
 {
-    public class CreateMenuItemCommandHandler
-        : IRequestHandler<CreateMenuItemCommand, MenuItemResponseDto>
+    public class CreateMenuItemsCommandHandler
+        : IRequestHandler<CreateMenuItemsCommand, MenuItemResponseDto>
     {
         private readonly AppDbContext _context;
-        public CreateMenuItemCommandHandler(AppDbContext context)
+        public CreateMenuItemsCommandHandler(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<MenuItemResponseDto> Handle(CreateMenuItemCommand request, CancellationToken cancellationToken)
+        public async Task<MenuItemResponseDto> Handle(CreateMenuItemsCommand request, CancellationToken cancellationToken)
         {
             var newMenuItem = new MenuItem
             {

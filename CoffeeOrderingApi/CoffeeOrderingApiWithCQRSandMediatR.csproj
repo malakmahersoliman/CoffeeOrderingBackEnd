@@ -22,4 +22,12 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.1.7" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\CoffeeOrders\Commands\DeleteCoffeeOrder\" />
+    <Folder Include="Features\CoffeeOrders\Commands\UpdateCoffeeOrder\" />
+    <Folder Include="Features\CoffeeOrders\Commands\OrderCoffee\" />
+    <Folder Include="Features\CoffeeOrders\Queries\GetAllCoffeeOrders\" />
+    <Folder Include="Features\CoffeeOrders\Queries\GetCoffeeOrderById\" />
+  </ItemGroup>
+
 </Project>

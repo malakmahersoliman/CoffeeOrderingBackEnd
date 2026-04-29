@@ -2,9 +2,9 @@
 using MediatR;
 using System.Data.Common;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItems
 {
-    public class CreateMenuItemCommand : IRequest<MenuItemResponseDto>
+    public class CreateMenuItemsCommand : IRequest<MenuItemResponseDto>
     {
         public string Name { get; set; } = "";
         public string Category { get; set; } = "";

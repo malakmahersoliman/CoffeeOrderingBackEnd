@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetAllMenuItems
 {
     public class GetAllMenuItemsQueryHandler
         : IRequestHandler<GetAllMenuItemsQuery, List<MenuItemResponseDto>>

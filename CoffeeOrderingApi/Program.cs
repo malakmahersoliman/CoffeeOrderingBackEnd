@@ -1,5 +1,5 @@
 using CoffeeOrderingApiWithCQRSandMediatR.Data;
-using CoffeeOrderingApiWithCQRSandMediatR.Services;
+
 using Microsoft.EntityFrameworkCore;
 
 
@@ -23,7 +23,7 @@ namespace CoffeeOrderingApiWithCQRSandMediatR
 
 
 
-            builder.Services.AddScoped<ICoffeeOrderService, CoffeeOrderService>();
+
             builder.Services.AddOpenApi();
             builder.Services.AddSwaggerGen();
 
