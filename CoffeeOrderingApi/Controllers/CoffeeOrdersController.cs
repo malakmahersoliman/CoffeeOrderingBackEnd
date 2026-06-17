@@ -1,5 +1,9 @@
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
-using CoffeeOrderingApiWithCQRSandMediatR.Services;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Commands.CreateCoffeeOrder;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Commands.DeleteCoffeeOrder;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Queries.GetAllCoffeeOrders;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Queries.GetCoffeeOrderById;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
@@ -8,24 +12,24 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
     [Route("api/[controller]")]
     public class CoffeeOrdersController : ControllerBase
     {
-        private readonly ICoffeeOrderService _orderService;
+        private readonly IMediator _mediator;
 
-        public CoffeeOrdersController(ICoffeeOrderService orderService)
+        public CoffeeOrdersController(IMediator mediator)
         {
-            _orderService = orderService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CoffeeOrderResponseDto>>> GetAllOrders()
         {
-            var result = await _orderService.GetAllAsync();
+            var result = await _mediator.Send(new GetAllCoffeeOrdersQuery());
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CoffeeOrderResponseDto>> GetOrderById(int id)
         {
-            var result = await _orderService.GetByIdAsync(id);
+            var result = await _mediator.Send(new GetCoffeeOrderByIdQuery(id));
             if (result == null)
             {
                 return NotFound($"Order with ID {id} not found.");
@@ -43,7 +47,14 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
 
             try
             {
-                var result = await _orderService.CreateAsync(dto);
+                var command = new CreateCoffeeOrderCommand
+                {
+                    CustomerId = dto.CustomerId,
+                    IsTakeAway = dto.IsTakeAway,
+                    Items = dto.Items
+                };
+
+                var result = await _mediator.Send(command);
                 if (result == null)
                 {
                     return BadRequest("Unable to create order.");
@@ -63,7 +74,7 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            var result = await _orderService.DeleteAsync(id);
+            var result = await _mediator.Send(new DeleteCoffeeOrderCommand(id));
             if (!result)
             {
                 return NotFound($"Order with ID {id} not found.");

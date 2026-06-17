@@ -1,43 +1,51 @@
-# Coffee Ordering System API
+# Coffee Ordering System API (CQRS & MediatR)
 
-A RESTful backend API designed for managing customers, coffee menu items, order items, and coffee orders. Built with ASP.NET Core Web API, Entity Framework Core, and SQL Server following clean architecture, separation of concerns, and best practices.
+A RESTful backend API designed for managing customers, coffee menu items, order items, and coffee orders. Built with ASP.NET Core Web API, Entity Framework Core, SQL Server, and fully refactored to implement the CQRS (Command Query Responsibility Segregation) pattern with MediatR for clean separation of concerns and maintainability.
 
 ---
 
 ## Technical Stack
 * **Framework**: ASP.NET Core 10 (Web API)
+* **MediatR**: MediatR 14 for decoupled in-process messaging
 * **Database Access**: Entity Framework Core 10 (Code-First)
 * **Database**: Microsoft SQL Server
 * **Documentation & Testing**: Swagger UI (Swashbuckle)
-* **Design Patterns**: Service-Repository pattern (Controller → Service → DbContext), DTO projection, Dependency Injection, Fluent Data Configurations.
+* **Design Patterns**: CQRS Pattern (Command Query Responsibility Segregation), Mediator Pattern (Controller → Mediator → Handler → DbContext), DTO Projection, Fluent Data Configurations.
 
 ---
 
 ## Key Features
-- **Customers Management**: Full CRUD operations for customer records, including validations.
-- **Menu Items Management**: Complete CRUD operations for coffee/beverage menu items, category classification, and availability state toggles.
-- **Coffee Orders Processing**: Handles ordering workflows. Calculates unit prices at the time of order placing, validates client & stock/menu availability, and persists ordered items.
+- **Customers Management (CQRS)**: Dedicated commands (Create, Update, Delete) and queries (Get All, Get by ID) for customer records, including validation.
+- **Menu Items Management (CQRS)**: Dedicated commands and queries for coffee/beverage menu items, category classification, and availability state toggles.
+- **Coffee Orders Processing (CQRS)**: Handles ordering workflows under CQRS handlers. Validates customer existence and item availability, automates unit price calculations at the time of order placement, and persists order details.
 - **Relational Integrity**: Uses EF Core configurations to establish strong 1-to-Many and Many-to-1 relationships between entities.
-- **Validation Rules**: Standard DTO validations (via Data Annotations) combined with manual business logic validations in the Service layer to ensure data sanitization.
+- **Validation Rules**: Standard DTO validations (via Data Annotations) combined with domain business validations inside the command handlers.
 
 ---
 
 ## Architecture
 
-This project implements a clean separation of concerns:
+This project implements a clean separation of concerns via CQRS and MediatR:
 ```
-Controller (HTTP Request Handlers)
-      ↓
-Services (Business Logic Layer)
-      ↓
-DbContext (Data Access Layer via EF Core)
-      ↓
-SQL Server Database
+           Controller (HTTP Request Handlers)
+                         ↓
+           IMediator (In-process Dispatcher)
+                         ↓
+  ┌──────────────────────┴──────────────────────┐
+  ▼                                             ▼
+Queries (Read)                               Commands (Write)
+  └──────────────┬──────────────────────────────┘
+                 ▼
+          MediatR Handlers
+                 ↓
+      DbContext (EF Core Access)
+                 ↓
+        SQL Server Database
 ```
 
 * **Domain (Entities)**: Focuses entirely on the model definition.
 * **Data (DbContext & Configurations)**: Decoupled Entity Configurations (`IEntityTypeConfiguration`) using EF Fluent API for clean and maintainable mappings.
-* **Services**: Encapsulates all query projections, business checks, calculations, and exception handling.
+* **Features (CQRS Command/Queries & Handlers)**: Organized under the `Features/` directory by domain area (`Customers`, `MenuItems`, `CoffeeOrders`), containing isolated commands, queries, and their handlers.
 * **DTOs**: Data Transfer Objects ensure that domain models are never directly exposed to the API consumer.
 
 ---
@@ -104,3 +112,4 @@ dotnet run
 ```
 Once started, the Swagger UI will be available at:
 `https://localhost:7198/swagger/index.html` (or matching port printed in your console).
+

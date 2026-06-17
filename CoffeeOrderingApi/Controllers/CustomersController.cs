@@ -1,5 +1,10 @@
 using CoffeeOrderingApi.DTOs;
-using CoffeeOrderingApiWithCQRSandMediatR.Services;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.CreateCustomer;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.UpdateCustomer;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.DeleteCustomer;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Queries.GetAllCustomers;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Queries.GetCustomerById;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
@@ -8,24 +13,24 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
     [Route("api/[controller]")]
     public class CustomersController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
+        private readonly IMediator _mediator;
 
-        public CustomersController(ICustomerService customerService)
+        public CustomersController(IMediator mediator)
         {
-            _customerService = customerService;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CustomerResponseDto>>> GetAllCustomers()
         {
-            var result = await _customerService.GetAllAsync();
+            var result = await _mediator.Send(new GetAllCustomersQuery());
             return Ok(result);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerResponseDto>> GetCustomerById(int id)
         {
-            var result = await _customerService.GetByIdAsync(id);
+            var result = await _mediator.Send(new GetCustomerByIdQuery { Id = id });
             if (result == null)
             {
                 return NotFound();
@@ -41,7 +46,13 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
                 return BadRequest(ModelState);
             }
 
-            var customer = await _customerService.CreateAsync(dto);
+            var command = new CreateCustomerCommand
+            {
+                FullName = dto.FullName,
+                PhoneNumber = dto.PhoneNumber
+            };
+
+            var customer = await _mediator.Send(command);
             return CreatedAtAction(nameof(GetCustomerById), new { id = customer.Id }, customer);
         }
 
@@ -53,7 +64,14 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
                 return BadRequest(ModelState);
             }
 
-            var updatedCustomer = await _customerService.UpdateAsync(id, dto);
+            var command = new UpdateCustomerCommand
+            {
+                Id = id,
+                FullName = dto.FullName,
+                PhoneNumber = dto.PhoneNumber
+            };
+
+            var updatedCustomer = await _mediator.Send(command);
             if (updatedCustomer == null)
             {
                 return NotFound();
@@ -64,7 +82,7 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCustomer(int id)
         {
-            var result = await _customerService.DeleteAsync(id);
+            var result = await _mediator.Send(new DeleteCustomerCommand { Id = id });
             if (!result)
             {
                 return NotFound();

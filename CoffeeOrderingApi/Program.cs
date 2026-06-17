@@ -18,11 +18,6 @@ namespace CoffeeOrderingApiWithCQRSandMediatR
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
             
-            // Register custom services
-            builder.Services.AddScoped<CoffeeOrderingApiWithCQRSandMediatR.Services.ICustomerService, CoffeeOrderingApiWithCQRSandMediatR.Services.CustomerService>();
-            builder.Services.AddScoped<CoffeeOrderingApiWithCQRSandMediatR.Services.IMenuItemService, CoffeeOrderingApiWithCQRSandMediatR.Services.MenuItemService>();
-            builder.Services.AddScoped<CoffeeOrderingApiWithCQRSandMediatR.Services.ICoffeeOrderService, CoffeeOrderingApiWithCQRSandMediatR.Services.CoffeeOrderService>();
-
             builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
