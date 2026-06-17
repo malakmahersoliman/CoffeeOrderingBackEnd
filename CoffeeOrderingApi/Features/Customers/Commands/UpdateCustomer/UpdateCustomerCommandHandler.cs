@@ -1,6 +1,6 @@
 ﻿
 
-using CoffeeOrderingApi.DTOs;
+using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using CoffeeOrderingApiWithCQRSandMediatR.Data;
 using MediatR;
 

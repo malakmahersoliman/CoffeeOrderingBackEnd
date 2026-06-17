@@ -1,19 +1,20 @@
-﻿using CoffeeOrderingApiWithCQRSandMediatR.Data;
+using CoffeeOrderingApiWithCQRSandMediatR.Data;
 using CoffeeOrderingApiWithCQRSandMediatR.Domain;
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using MediatR;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItems
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItem
 {
-    public class CreateMenuItemsCommandHandler
-        : IRequestHandler<CreateMenuItemsCommand, MenuItemResponseDto>
+    public class CreateMenuItemCommandHandler : IRequestHandler<CreateMenuItemCommand, MenuItemResponseDto>
     {
         private readonly AppDbContext _context;
-        public CreateMenuItemsCommandHandler(AppDbContext context)
+
+        public CreateMenuItemCommandHandler(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<MenuItemResponseDto> Handle(CreateMenuItemsCommand request, CancellationToken cancellationToken)
+
+        public async Task<MenuItemResponseDto> Handle(CreateMenuItemCommand request, CancellationToken cancellationToken)
         {
             var newMenuItem = new MenuItem
             {

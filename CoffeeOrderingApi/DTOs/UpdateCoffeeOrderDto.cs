@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CoffeeOrderingApi.DTOs
+namespace CoffeeOrderingApiWithCQRSandMediatR.DTOs
 {
     public class UpdateCoffeeOrderDto
     {
         [Required]
+        [MaxLength(30)]
         public string Status { get; set; } = "";
 
-        public bool IstakeAway { get; set; }
+        public bool IsTakeAway { get; set; }
     }
 }

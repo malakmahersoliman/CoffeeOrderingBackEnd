@@ -1,22 +1,26 @@
-﻿using CoffeeOrderingApiWithCQRSandMediatR.Data;
+using CoffeeOrderingApiWithCQRSandMediatR.Data;
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using MediatR;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.UpdateMenuItems
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.UpdateMenuItem
 {
-    public class UpdateMenuItemsCommandHandler : IRequestHandler<UpdateMenuItemsCommand, MenuItemResponseDto?>
+    public class UpdateMenuItemCommandHandler : IRequestHandler<UpdateMenuItemCommand, MenuItemResponseDto?>
     {
         private readonly AppDbContext _context;
-        public UpdateMenuItemsCommandHandler(AppDbContext context)
+
+        public UpdateMenuItemCommandHandler(AppDbContext context)
         {
             _context = context;
         }
-        public async Task<MenuItemResponseDto?> Handle(UpdateMenuItemsCommand request, CancellationToken cancellationToken)
+
+        public async Task<MenuItemResponseDto?> Handle(UpdateMenuItemCommand request, CancellationToken cancellationToken)
         {
-            var menuItem = await _context.MenuItems.FindAsync(request.Id);
-            if (menuItem == null) {
+            var menuItem = await _context.MenuItems.FindAsync(new object[] { request.Id }, cancellationToken);
+            if (menuItem == null)
+            {
                 return null;
             }
+
             menuItem.Name = request.Name;
             menuItem.Category = request.Category;
             menuItem.Price = request.Price;

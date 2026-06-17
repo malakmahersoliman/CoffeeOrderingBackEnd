@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CoffeeOrderingApi.DTOs
+namespace CoffeeOrderingApiWithCQRSandMediatR.DTOs
 {
     public class CreateCustomerDto
     {

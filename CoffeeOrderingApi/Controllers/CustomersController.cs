@@ -1,4 +1,4 @@
-using CoffeeOrderingApi.DTOs;
+using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.CreateCustomer;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.UpdateCustomer;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.Customers.Commands.DeleteCustomer;

@@ -1,6 +1,6 @@
 using CoffeeOrderingApiWithCQRSandMediatR.Data;
-using CoffeeOrderingApiWithCQRSandMediatR.Domain;
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Mapping;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,33 +23,12 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Queries.GetC
                     .ThenInclude(oi => oi.MenuItem)
                 .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
-            if (order == null) return null;
-
-            return MapToResponseDto(order);
-        }
-
-        private static CoffeeOrderResponseDto MapToResponseDto(CoffeeOrder order)
-        {
-            var items = order.OrderItems.Select(oi => new CoffeeOrderItemResponseDto
+            if (order == null)
             {
-                MenuItemId = oi.MenuItemId,
-                MenuItemName = oi.MenuItem?.Name ?? "Unknown Item",
-                Quantity = oi.Quantity,
-                UnitPrice = oi.UnitPrice,
-                SubTotal = oi.UnitPrice * oi.Quantity
-            }).ToList();
+                return null;
+            }
 
-            return new CoffeeOrderResponseDto
-            {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                CustomerName = order.Customer?.FullName ?? "Unknown Customer",
-                IsTakeAway = order.IsTakeAway,
-                Status = order.Status,
-                CreatedAt = order.CreatedAt,
-                TotalAmount = items.Sum(i => i.SubTotal),
-                Items = items
-            };
+            return CoffeeOrderMapper.MapToResponseDto(order);
         }
     }
 }

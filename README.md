@@ -80,6 +80,7 @@ Customer (1) <───────> (M) CoffeeOrder
 * `GET /api/CoffeeOrders` - Retrieves all coffee orders, including customer details and ordered items with totals.
 * `GET /api/CoffeeOrders/{id}` - Retrieves a specific coffee order by ID.
 * `POST /api/CoffeeOrders` - Places a new coffee order (automates price calculations based on current menu item prices and validates item availability).
+* `PUT /api/CoffeeOrders/{id}` - Updates order status and take-away flag.
 * `DELETE /api/CoffeeOrders/{id}` - Cancels/deletes a coffee order.
 
 ---
@@ -108,8 +109,13 @@ dotnet ef database update
 ### 4. Launch the API
 Build and run the project:
 ```bash
-dotnet run
+dotnet run --project CoffeeOrderingApi
 ```
 Once started, the Swagger UI will be available at:
-`https://localhost:7198/swagger/index.html` (or matching port printed in your console).
+`https://localhost:7245/swagger/index.html` or `http://localhost:5074/swagger/index.html` (see the URL printed in your console).
+
+### 5. Run tests
+```bash
+dotnet test
+```
 

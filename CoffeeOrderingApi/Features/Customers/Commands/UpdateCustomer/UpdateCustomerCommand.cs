@@ -1,4 +1,4 @@
-﻿using CoffeeOrderingApi.DTOs;
+﻿using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using MediatR;
 
 

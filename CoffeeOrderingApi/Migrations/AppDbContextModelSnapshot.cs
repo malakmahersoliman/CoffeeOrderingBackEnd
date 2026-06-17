@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CoffeeOrderingApi.Migrations
+namespace CoffeeOrderingApiWithCQRSandMediatR.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace CoffeeOrderingApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.CoffeeOrder", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.CoffeeOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace CoffeeOrderingApi.Migrations
                     b.ToTable("CoffeeOrders");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.Customer", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.Customer", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -74,7 +74,7 @@ namespace CoffeeOrderingApi.Migrations
                     b.ToTable("Customers");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.MenuItem", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.MenuItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -105,7 +105,7 @@ namespace CoffeeOrderingApi.Migrations
                     b.ToTable("MenuItems");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.OrderItem", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.OrderItem", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -134,9 +134,9 @@ namespace CoffeeOrderingApi.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.CoffeeOrder", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.CoffeeOrder", b =>
                 {
-                    b.HasOne("CoffeeOrderingApi.Domain.Customer", "Customer")
+                    b.HasOne("CoffeeOrderingApiWithCQRSandMediatR.Domain.Customer", "Customer")
                         .WithMany("CoffeeOrders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -145,15 +145,15 @@ namespace CoffeeOrderingApi.Migrations
                     b.Navigation("Customer");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.OrderItem", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.OrderItem", b =>
                 {
-                    b.HasOne("CoffeeOrderingApi.Domain.CoffeeOrder", "CoffeeOrder")
+                    b.HasOne("CoffeeOrderingApiWithCQRSandMediatR.Domain.CoffeeOrder", "CoffeeOrder")
                         .WithMany("OrderItems")
                         .HasForeignKey("CoffeeOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoffeeOrderingApi.Domain.MenuItem", "MenuItem")
+                    b.HasOne("CoffeeOrderingApiWithCQRSandMediatR.Domain.MenuItem", "MenuItem")
                         .WithMany("OrderItems")
                         .HasForeignKey("MenuItemId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -164,17 +164,17 @@ namespace CoffeeOrderingApi.Migrations
                     b.Navigation("MenuItem");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.CoffeeOrder", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.CoffeeOrder", b =>
                 {
                     b.Navigation("OrderItems");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.Customer", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.Customer", b =>
                 {
                     b.Navigation("CoffeeOrders");
                 });
 
-            modelBuilder.Entity("CoffeeOrderingApi.Domain.MenuItem", b =>
+            modelBuilder.Entity("CoffeeOrderingApiWithCQRSandMediatR.Domain.MenuItem", b =>
                 {
                     b.Navigation("OrderItems");
                 });

@@ -1,6 +1,7 @@
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Commands.CreateCoffeeOrder;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Commands.DeleteCoffeeOrder;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Commands.UpdateCoffeeOrder;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Queries.GetAllCoffeeOrders;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.CoffeeOrders.Queries.GetCoffeeOrderById;
 using MediatR;
@@ -61,6 +62,10 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
                 }
                 return CreatedAtAction(nameof(GetOrderById), new { id = result.Id }, result);
             }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
             catch (KeyNotFoundException ex)
             {
                 return NotFound(new { message = ex.Message });
@@ -69,6 +74,29 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
             {
                 return BadRequest(new { message = ex.Message });
             }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<CoffeeOrderResponseDto>> UpdateOrder(int id, [FromBody] UpdateCoffeeOrderDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var command = new UpdateCoffeeOrderCommand
+            {
+                Id = id,
+                Status = dto.Status,
+                IsTakeAway = dto.IsTakeAway
+            };
+
+            var result = await _mediator.Send(command);
+            if (result == null)
+            {
+                return NotFound($"Order with ID {id} not found.");
+            }
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]

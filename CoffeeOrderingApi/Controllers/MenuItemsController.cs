@@ -1,10 +1,9 @@
-using CoffeeOrderingApi.DTOs;
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
-using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItems;
-using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.UpdateMenuItems;
-using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.DeleteMenuItems;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.CreateMenuItem;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.DeleteMenuItem;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Commands.UpdateMenuItem;
 using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetAllMenuItems;
-using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetMenuItemsById;
+using CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetMenuItemById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -47,7 +46,7 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
                 return BadRequest(ModelState);
             }
 
-            var command = new CreateMenuItemsCommand
+            var command = new CreateMenuItemCommand
             {
                 Name = dto.Name,
                 Category = dto.Category,
@@ -67,7 +66,7 @@ namespace CoffeeOrderingApiWithCQRSandMediatR.Controllers
                 return BadRequest(ModelState);
             }
 
-            var command = new UpdateMenuItemsCommand
+            var command = new UpdateMenuItemCommand
             {
                 Id = id,
                 Name = dto.Name,

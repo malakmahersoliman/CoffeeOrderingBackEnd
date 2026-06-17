@@ -1,4 +1,4 @@
-﻿namespace CoffeeOrderingApi.DTOs
+﻿namespace CoffeeOrderingApiWithCQRSandMediatR.DTOs
 {
     public class CustomerResponseDto
     {

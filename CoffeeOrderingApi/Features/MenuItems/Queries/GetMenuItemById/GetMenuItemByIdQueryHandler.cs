@@ -2,7 +2,7 @@
 using CoffeeOrderingApiWithCQRSandMediatR.DTOs;
 using MediatR;
 
-namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetMenuItemsById
+namespace CoffeeOrderingApiWithCQRSandMediatR.Features.MenuItems.Queries.GetMenuItemById
 {
     public class GetMenuItemByIdQueryHandler : IRequestHandler<GetMenuItemByIdQuery, MenuItemResponseDto?>
     {
